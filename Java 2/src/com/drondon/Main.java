@@ -4,38 +4,22 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        printHello();
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            String input = scanner.next();
-            String trimmedString = input.trim();
-            String question = trimmedString.toLowerCase();
-            switch (question) {
-                case "exit":
-                case "quit":
-                    System.out.println("Goodbye my friend!");
-                    return;
 
-                case "hello":
-                    System.out.println("Hello my friend!");
-                    printHello();
-                    break;
+        System.out.print("Сколько денег напечатать? : ");
 
-                default:
-                    System.out.println("What ?!");
-                    String error = validate(input);
-                    System.out.println("Error: " + error);
-                    printHello();
-                    break;
+        if (scanner.hasNextInt()) {
+            int count = scanner.nextInt();
+            for (int i = 0; i < count; i++) {
+                System.out.println("Index: " + i);
+                printMoney();
             }
         }
+
     }
 
-    public static final String validate(String input) {
-        return (input.isEmpty() ? "Empty" : "Unknown") + " data";
+    public static final void printMoney() {
+        System.out.println("100$");
     }
 
-    public static final void printHello() {
-        System.out.print("Hello... Please input here: ");
-    }
 }
