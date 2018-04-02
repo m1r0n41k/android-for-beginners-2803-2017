@@ -8,16 +8,30 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             String input = scanner.next();
-            if (input != null && "exit".equalsIgnoreCase(input) || "quit".equalsIgnoreCase(input)) {
-                System.out.println("Goodbye my friend!");
-                break;
-            } else if ("hello".equalsIgnoreCase(input)) {
-                System.out.println("Hello my friend!");
-            } else {
-                System.out.println("What ?!");
-                printHello();
+            switch (input) {
+                case "exit":
+                case "quit":
+                    System.out.println("Goodbye my friend!");
+                    return;
+
+                case "hello": {
+                    System.out.println("Hello my friend!");
+                    break;
+                }
+
+                default:
+                    System.out.println("What ?!");
+                    String error = validate(input);
+                    System.out.println("Error: " + error);
+                    printHello();
+                    break;
+
             }
         }
+    }
+
+    public static final String validate(String input) {
+        return (input.isEmpty() ? "Empty" : "Unknown") + " data";
     }
 
     public static final void printHello() {
