@@ -4,24 +4,15 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Сколько денег напечатать? : ");
+        int[] array = {1, 2, 4, 5, 6, 7, 8};
+        //                               ^
+        //                       index - 6
+        int index = -1;
+        System.out.println("Array size: " + array.);
+        System.out.println("Array value: [" + index + "] = " + array[index]);
 
-        if (scanner.hasNextInt()) {
-            int count = scanner.nextInt();
-            for (int i = 0; i < count; i++) {
-                System.out.println("Index: " + i);
-                if (i % 2 != 0) {
-                    continue;
-                }
-                printMoney();
-            }
-        }
     }
 
-    public static final void printMoney() {
-        System.out.println("100$");
-    }
 
 }
