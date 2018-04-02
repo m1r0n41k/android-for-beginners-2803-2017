@@ -8,16 +8,18 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             String input = scanner.next();
-            switch (input) {
+            String trimmedString = input.trim();
+            String question = trimmedString.toLowerCase();
+            switch (question) {
                 case "exit":
                 case "quit":
                     System.out.println("Goodbye my friend!");
                     return;
 
-                case "hello": {
+                case "hello":
                     System.out.println("Hello my friend!");
+                    printHello();
                     break;
-                }
 
                 default:
                     System.out.println("What ?!");
@@ -25,7 +27,6 @@ public class Main {
                     System.out.println("Error: " + error);
                     printHello();
                     break;
-
             }
         }
     }
