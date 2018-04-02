@@ -1,40 +1,35 @@
 package com.drondon;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+
+
     public static void main(String[] args) {
 
-        System.out.println("User name: " + args[0]);
-        System.out.println("User email: " + args[1]);
-
         Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите размер: ");
+        int size = scanner.nextInt();
+        scanner.reset();
 
-        while (true) {
+        String[] array = new String[size];
 
-            System.out.print("Введите слово: ");
-            String input = scanner.next();
+        for (int i = 0; i < size; i++) {
+            System.out.println("Введите [" + i + "] елемент");
+            array[i] = scanner.next();
             scanner.reset();
+        }
 
-            System.out.println("Length: " + input.length());
+        array[0] = "A";
+        array[1] = "Ab";
+        array[2] = "Abc";
+        array[4] = "Abcd";
 
-            System.out.print("Введите индекс буквы: ");
-            int index = scanner.nextInt();
-
-            char letter = input.charAt(index);
-            System.out.println("Выбранная буква: " + letter);
-
-            char[] chars = input.toCharArray();
-
-            for (int i = 0; i < chars.length; i++) {
-                char c = chars[i];
-                Character upperC = Character.toUpperCase(c);
-                System.out.println("" + upperC + ((i < (chars.length - 1)) ? ", " : ""));
-            }
-
+        System.out.println("Result: ");
+        for (String s : array) {
+            System.out.println(s);
         }
 
     }
-
-
 }
