@@ -12,10 +12,12 @@ public class Main {
             int count = scanner.nextInt();
             for (int i = 0; i < count; i++) {
                 System.out.println("Index: " + i);
+                if (i % 2 != 0) {
+                    continue;
+                }
                 printMoney();
             }
         }
-
     }
 
     public static final void printMoney() {
