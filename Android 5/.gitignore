@@ -1,0 +1,10 @@
+app/app.iml
+.gradle
+/Android 5/local.properties
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
