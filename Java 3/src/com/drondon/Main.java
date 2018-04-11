@@ -1,33 +1,59 @@
 package com.drondon;
 
+import com.drondon.core.Guard;
+import com.drondon.core.Man;
+import com.drondon.core.User;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Hello");
+        Man user = new User();
+        user.setName("Andrew");
+        user.setPhoneNumber("+380663386612");
 
-        System.out.println("Array list: " + arrayList.toString());
-        System.out.println("Array list item id 0: " + arrayList.get(0));
+        Man guard = new Guard();
+        guard.setName("Boris");
 
-        arrayList.set(0, "Goodbye!");
+        System.out.println("User: " + user.toString());
+        System.out.println("User hashCode: " + Integer.toHexString(user.hashCode()));
+        System.out.println("User data: " + user.getName() + " : " + user.getPhoneNumber());
 
-        int indexOfElement = 10;
+        Man man = new Man() {
+            @Override
+            public String getName() {
+                return null;
+            }
 
-        if(indexOfElement < arrayList.size()){
-            arrayList.set(0, "Yo!");
+            @Override
+            public void setName(String name) {
+
+            }
+
+            @Override
+            public String getPhoneNumber() {
+                return null;
+            }
+
+            @Override
+            public void setPhoneNumber(String phoneNumber) {
+
+            }
+        };
+
+        ArrayList<Man> employers = new ArrayList<>();
+        employers.add(user);
+        employers.add(guard);
+        employers.add(man);
+
+        for (Man employer : employers) {
+            printMan(employer);
         }
+    }
 
-        String[] array = new String[]{"Hello"};
-        System.out.println("Array: " + array.toString());
-        System.out.println("Array data: " + Arrays.toString(array));
-        System.out.println("Array item id 0: " + array[0]);
-
-        String substring = "ABC".substring(1, 2);
-        System.out.println("Substring: " + substring);
-
+    public static final void printMan(Man man) {
+        System.out.println("User: " + man.getName());
+        System.out.println("Phone number: " + man.getPhoneNumber());
     }
 }
