@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Абхаз 7</string>
+    <string name="title_activity_second">Второе активи</string>
+    <string name="app_title_second_screen">Второй экран в Грузии</string>
+    <plurals name="app_plurals">
+        <item quantity="one">Один</item>
+        <item quantity="zero">Ноль</item>
+    </plurals>
+</resources>

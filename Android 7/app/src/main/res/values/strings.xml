@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Android 7</string>
+    <string name="title_activity_second">SecondActivity</string>
+    <string name="app_title_second_screen">Second screen</string>
+    <plurals name="">
+        <item quantity="one">One</item>
+        <item quantity="zero">Zero</item>
+    </plurals>
+</resources>
