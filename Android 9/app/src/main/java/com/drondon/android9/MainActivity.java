@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,37 +22,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ListView listView = findViewById(R.id.listView);
+        final Spinner listView = findViewById(R.id.listView);
 
         final List<Character> alphabet = getAlphabet();
 
         /*ArrayAdapter*/
-        ListAdapter adapter = new ArrayAdapter<>(this,
-                R.layout.item_single_selected,
+        SpinnerAdapter adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
                 alphabet);
 
         listView.setAdapter(adapter);
-        listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //view.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorAccent));
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(view.getContext(),
                         "Letter: " + alphabet.get(position),
                         Toast.LENGTH_SHORT
                 ).show();
+                openDetailScreen(alphabet.get(position));
             }
-        });
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                int checkedPosition = listView.getCheckedItemPosition();
-                openDetailScreen(alphabet.get(checkedPosition));
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
-
 
     }
 
