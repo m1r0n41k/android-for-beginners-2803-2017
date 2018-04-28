@@ -14,6 +14,8 @@ public class Coin {
 
     private double percent24h;
 
+    private boolean favorite = false;
+
     public Coin(int rank, String simbol, String name, long marketCap, double priceUsd, double percent24h) {
         this.rank = rank;
         this.name = name;
@@ -45,5 +47,13 @@ public class Coin {
 
     public double getPercent24h() {
         return percent24h;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 }

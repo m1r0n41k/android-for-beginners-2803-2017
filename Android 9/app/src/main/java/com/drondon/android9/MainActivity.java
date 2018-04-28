@@ -2,8 +2,8 @@ package com.drondon.android9;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.List;
 
@@ -16,12 +16,24 @@ public class MainActivity extends AppCompatActivity {
 
         final RecyclerView recyclerView = findViewById(R.id.recyclerView);
         //recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        CoinDataSource dataSource = new CoinDataSource();
+        final CoinDataSource dataSource = new CoinDataSource();
         dataSource.load(new CoinDataSource.ResultCallback() {
             @Override
             public void onResult(List<Coin> coins) {
-                CoinRecyclerViewAdapter adapter = new CoinRecyclerViewAdapter(coins);
+                final CoinRecyclerViewAdapter adapter = new CoinRecyclerViewAdapter(coins, dataSource.getFavorites());
+
+                adapter.setOnFavoriteChangeListener(new CoinRecyclerViewAdapter.OnFavoriteChangeListener() {
+                    @Override
+                    public void onChange(View view, Coin coin) {
+                        //write to data base
+                        if (coin.isFavorite()) {
+                            dataSource.getFavorites().add(coin);
+                        } else {
+                            dataSource.getFavorites().remove(coin);
+                        }
+                        adapter.updateFavorites();
+                    }
+                });
                 recyclerView.setAdapter(adapter);
             }
         });
