@@ -1,0 +1,12 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+         when checked/unchecked. -->
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_show_favorite"
+        android:title="Show favorites" />
+
+    <Preference android:key="@string/pref_key_about" android:title="About"/>
+
+</PreferenceScreen>

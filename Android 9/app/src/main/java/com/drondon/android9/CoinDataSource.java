@@ -1,5 +1,7 @@
 package com.drondon.android9;
 
+import com.drondon.android9.splash.SplashActivity.A;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class CoinDataSource {
         App.get().db.getCoinDao().insertAll(coins);
         List<Coin> all = App.get().db.getCoinDao().getAll();
 
+        A a = new A();
         resultCallback.onResult(all);
     }
 

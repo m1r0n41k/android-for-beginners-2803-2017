@@ -6,6 +6,8 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.util.Objects;
+
 @Entity(tableName = "coins")
 public class Coin {
 
@@ -94,5 +96,38 @@ public class Coin {
 
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coin coin = (Coin) o;
+        return rank == coin.rank &&
+                marketCap == coin.marketCap &&
+                Double.compare(coin.priceUsd, priceUsd) == 0 &&
+                Double.compare(coin.percent24h, percent24h) == 0 &&
+                favorite == coin.favorite &&
+                Objects.equals(name, coin.name) &&
+                Objects.equals(simbol, coin.simbol);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(rank, name, marketCap, simbol, priceUsd, percent24h, favorite);
+    }
+
+    @Override
+    public String toString() {
+        return "Coin{" +
+                "rank=" + rank +
+                ", name='" + name + '\'' +
+                ", marketCap=" + marketCap +
+                ", simbol='" + simbol + '\'' +
+                ", priceUsd=" + priceUsd +
+                ", percent24h=" + percent24h +
+                ", favorite=" + favorite +
+                '}';
     }
 }
