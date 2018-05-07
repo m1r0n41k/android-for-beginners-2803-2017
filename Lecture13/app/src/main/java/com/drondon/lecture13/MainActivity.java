@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity_";
@@ -33,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         printThreadInfo();
 
         myAsyncTask = new MyAsyncTask(textView);
-        myAsyncTask.execute(1000);
+        myAsyncTask.execute("https://api.coinmarketcap.com/v2/ticker/?limit=10");
     }
 
 
@@ -49,36 +54,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "threadName: " + threadName);
     }
 
-    public void fromOneToHundred() {
-        for (int i = 0; i < 1000; i++) {
-            try {
-                Thread.sleep(50L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            final int finalI = i;
-            textView.post(new Runnable() {
-                @Override
-                public void run() {
-                    textView.setText("fromOneToHundred: " + finalI);
-                }
-            });
-        }
-    }
-
-    public void fromHundredToOne() {
-        for (int i = 1000; i >= 0; i--) {
-            final int finalI = i;
-            textView2.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    textView2.setText("fromOneToHundred: " + finalI);
-                }
-            }, 5000);
-        }
-    }
-
-    public static class MyAsyncTask extends AsyncTask<Integer, Integer, String> {
+    public static class MyAsyncTask extends AsyncTask<String, Integer, String> {
 
         private TextView textView;
 
@@ -94,22 +70,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(Integer... integers) {
+        protected String doInBackground(String... urls) {
             printThreadInfo();
-            for (int i = 1000; i >= 0; i--) {
-                if (!isCancelled()) {
-                    try {
-                        Thread.sleep(50L);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    publishProgress(i);
-                } else {
-                    return "Canceled!";
-                }
-
+            try {
+                JSONObject
+                return new HttpClient().request(urls[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
             }
-            return "Complete!";
+            return null;
         }
 
         @Override
@@ -121,7 +92,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Toast.makeText(textView.getContext(), "Result: " + s, Toast.LENGTH_SHORT).show();
+            if (s == null) {
+                Toast.makeText(textView.getContext(), "Error!", Toast.LENGTH_SHORT).show();
+            } else {
+                textView.setText(s);
+            }
         }
     }
 }

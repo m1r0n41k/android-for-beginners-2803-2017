@@ -121,7 +121,7 @@ public class CoinRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public void setData(Coin coin, int position) {
             rank.setText(String.valueOf(coin.getRank()));
-            simbol.setText(String.valueOf(coin.getSimbol()));
+            simbol.setText(String.valueOf(coin.getSymbol()));
             name.setText(String.valueOf(coin.getName()));
             marketCap.setText(String.valueOf(coin.getMarketCap()) + "$");
             priceUsd.setText(String.valueOf(coin.getPriceUsd()) + "$");

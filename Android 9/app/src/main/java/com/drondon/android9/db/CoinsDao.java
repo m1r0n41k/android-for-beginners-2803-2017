@@ -25,7 +25,7 @@ public interface CoinsDao {
     @Query("SELECT * FROM coins")
     List<Coin> getAll();
 
-    @Query("SELECT * FROM coins WHERE simbol = :id")
+    @Query("SELECT * FROM coins WHERE id = :id")
     Coin get(String id);
 
 }

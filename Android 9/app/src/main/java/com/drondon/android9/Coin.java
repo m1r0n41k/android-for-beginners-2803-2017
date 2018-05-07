@@ -6,38 +6,39 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 @Entity(tableName = "coins")
 public class Coin {
+    @PrimaryKey
+    @NonNull
+    private String id;
 
     private int rank;
 
     private String name;
 
+    @SerializedName("market_cap_usd")
     @ColumnInfo(name = "market_cap")
-    private long marketCap;
+    private double marketCap;
 
-    @PrimaryKey
-    @NonNull
-    private String simbol;
+    private String symbol;
 
+    @SerializedName("price_usd")
     @ColumnInfo(name = "price_usd")
     private double priceUsd;
 
+    @SerializedName("percent_change_24h")
     @ColumnInfo(name = "percent_24h")
     private double percent24h;
 
     @Ignore
     private boolean favorite = false;
 
-    public Coin(int rank, String simbol, String name, long marketCap, double priceUsd, double percent24h) {
-        this.rank = rank;
-        this.name = name;
-        this.marketCap = marketCap;
-        this.simbol = simbol;
-        this.priceUsd = priceUsd;
-        this.percent24h = percent24h;
+    public String getId() {
+        return id;
     }
 
     public int getRank() {
@@ -48,12 +49,12 @@ public class Coin {
         return name;
     }
 
-    public long getMarketCap() {
+    public double getMarketCap() {
         return marketCap;
     }
 
-    public String getSimbol() {
-        return simbol;
+    public String getSymbol() {
+        return symbol;
     }
 
     public double getPriceUsd() {
@@ -77,12 +78,12 @@ public class Coin {
         this.name = name;
     }
 
-    public void setMarketCap(long marketCap) {
+    public void setMarketCap(double marketCap) {
         this.marketCap = marketCap;
     }
 
-    public void setSimbol(String simbol) {
-        this.simbol = simbol;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public void setPriceUsd(double priceUsd) {
@@ -109,13 +110,13 @@ public class Coin {
                 Double.compare(coin.percent24h, percent24h) == 0 &&
                 favorite == coin.favorite &&
                 Objects.equals(name, coin.name) &&
-                Objects.equals(simbol, coin.simbol);
+                Objects.equals(symbol, coin.symbol);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(rank, name, marketCap, simbol, priceUsd, percent24h, favorite);
+        return Objects.hash(rank, name, marketCap, symbol, priceUsd, percent24h, favorite);
     }
 
     @Override
@@ -124,10 +125,14 @@ public class Coin {
                 "rank=" + rank +
                 ", name='" + name + '\'' +
                 ", marketCap=" + marketCap +
-                ", simbol='" + simbol + '\'' +
+                ", symbol='" + symbol + '\'' +
                 ", priceUsd=" + priceUsd +
                 ", percent24h=" + percent24h +
                 ", favorite=" + favorite +
                 '}';
+    }
+
+    public void setId(@NonNull String id) {
+        this.id = id;
     }
 }

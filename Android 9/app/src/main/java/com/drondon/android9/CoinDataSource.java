@@ -1,13 +1,36 @@
 package com.drondon.android9;
 
-import com.drondon.android9.splash.SplashActivity.A;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.NonNull;
 
+import com.drondon.android9.api.HttpClient;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class CoinDataSource {
 
     private List<Coin> favorites = new ArrayList<>();
+
+    private Executor executorService = Executors.newSingleThreadExecutor();
+
+    private Handler handler = new Handler(Looper.getMainLooper());
+
+    private Executor uiService = new Executor() {
+        @Override
+        public void execute(@NonNull Runnable command) {
+            handler.post(command);
+        }
+    };
 
     interface ResultCallback {
         void onResult(List<Coin> coins);
@@ -17,31 +40,41 @@ public class CoinDataSource {
         return favorites;
     }
 
-    void load(ResultCallback resultCallback) {
+    void load(final ResultCallback resultCallback) {
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
 
-        List<Coin> coins = new ArrayList<>();
+                    String result = new HttpClient().request("https://api.coinmarketcap.com/v1/ticker/");
 
-        coins.add(new Coin(1, "BTC", "Bitcoin", 1000055000L, 10000.0, -2.0));
-        coins.add(new Coin(2, "MTC", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(3, "MTC1", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(4, "MTC2", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(5, "MTC3", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(6, "MTC4", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(7, "MTC5", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(8, "MTC6", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(9, "MTC7", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(10, "MTC8", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(11, "MTC9", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(12, "MTC10", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(13, "MTC11", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(14, "MTC12", "Mycoin", 10055009L, 1000.0, 5.0));
-        coins.add(new Coin(15, "MTC13", "Mycoin", 10055009L, 1000.0, 5.0));
+                    Gson gson = new GsonBuilder().create();
 
-        App.get().db.getCoinDao().insertAll(coins);
-        List<Coin> all = App.get().db.getCoinDao().getAll();
+                    Type type = new TypeToken<List<Coin>>() {
+                    }.getType();
 
-        A a = new A();
-        resultCallback.onResult(all);
+                    List<Coin> coins =  gson.fromJson(result, type);
+
+                    App.get().db.getCoinDao().insertAll(coins);
+
+                    final List<Coin> all = App.get().db.getCoinDao().getAll();
+
+                    uiService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            resultCallback.onResult(all);
+                        }
+                    });
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
     }
 
 }

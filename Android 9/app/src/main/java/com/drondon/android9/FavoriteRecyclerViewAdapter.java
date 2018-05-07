@@ -44,7 +44,7 @@ public class FavoriteRecyclerViewAdapter
         }
 
         public void setData(Coin coin, int position) {
-            symbol.setText(coin.getSimbol());
+            symbol.setText(coin.getSymbol());
             rank.setText(String.valueOf(coin.getRank()));
         }
     }
