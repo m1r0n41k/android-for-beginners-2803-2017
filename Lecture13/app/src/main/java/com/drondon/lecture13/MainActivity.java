@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity_";
     private TextView textView;
     private TextView textView2;
+    private MyAsyncTask myAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,38 +26,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Click!", Toast.LENGTH_SHORT).show();
+                myAsyncTask.cancel(false);
             }
         });
 
         printThreadInfo();
-        Runnable runnable1 = new Runnable() {
-            @Override
-            public void run() {
-                printThreadInfo();
-                fromOneToHundred();
-            }
-        };
 
-        Thread thread1 = new Thread(runnable1);
-
-        Runnable runnable2 = new Runnable() {
-            @Override
-            public void run() {
-                printThreadInfo();
-                fromHundredToOne();
-            }
-        };
-
-        Thread thread2 = new Thread(runnable2);
-
-        thread1.start();
-        thread2.start();
-
-        boolean isCurrentThread = Thread.currentThread().getName() == "main";
-
+        myAsyncTask = new MyAsyncTask(textView);
+        myAsyncTask.execute(1000);
     }
 
-    private void printThreadInfo() {
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        myAsyncTask.cancel(true);
+    }
+
+    private static void printThreadInfo() {
         Thread thread = Thread.currentThread();
         String threadName = thread.getName();
         Log.d(TAG, "threadName: " + threadName);
@@ -88,6 +75,53 @@ public class MainActivity extends AppCompatActivity {
                     textView2.setText("fromOneToHundred: " + finalI);
                 }
             }, 5000);
+        }
+    }
+
+    public static class MyAsyncTask extends AsyncTask<Integer, Integer, String> {
+
+        private TextView textView;
+
+        public MyAsyncTask(TextView textView) {
+            this.textView = textView;
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            textView.setText("Counter 1: " + -1);
+        }
+
+        @Override
+        protected String doInBackground(Integer... integers) {
+            printThreadInfo();
+            for (int i = 1000; i >= 0; i--) {
+                if (!isCancelled()) {
+                    try {
+                        Thread.sleep(50L);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    publishProgress(i);
+                } else {
+                    return "Canceled!";
+                }
+
+            }
+            return "Complete!";
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            textView.setText("Counter 1: " + values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Toast.makeText(textView.getContext(), "Result: " + s, Toast.LENGTH_SHORT).show();
         }
     }
 }
