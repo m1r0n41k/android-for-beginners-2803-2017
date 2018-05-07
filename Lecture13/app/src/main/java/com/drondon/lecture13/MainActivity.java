@@ -1,9 +1,7 @@
 package com.drondon.lecture13;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,23 +13,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity_";
     private TextView textView;
     private TextView textView2;
-    private Handler handler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            printThreadInfo();
-            int viewId = msg.arg1;
-            switch (viewId) {
-                case R.id.textView:
-                    textView.setText((String) msg.obj);
-                    break;
-
-                case R.id.textView2:
-                    textView2.setText((String) msg.obj);
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
         boolean isCurrentThread = Thread.currentThread().getName() == "main";
 
-
     }
 
     private void printThreadInfo() {
@@ -89,24 +69,25 @@ public class MainActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Message message = new Message();
-            message.arg1 = R.id.textView;
-            message.obj = "fromOneToHundred: " + i;
-            handler.sendMessage(message);
+            final int finalI = i;
+            textView.post(new Runnable() {
+                @Override
+                public void run() {
+                    textView.setText("fromOneToHundred: " + finalI);
+                }
+            });
         }
     }
 
     public void fromHundredToOne() {
         for (int i = 1000; i >= 0; i--) {
-            try {
-                Thread.sleep(50L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Message message = new Message();
-            message.arg1 = R.id.textView2;
-            message.obj = "fromHundredToOne: " + i;
-            handler.sendMessage(message);
+            final int finalI = i;
+            textView2.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    textView2.setText("fromOneToHundred: " + finalI);
+                }
+            }, 5000);
         }
     }
 }
