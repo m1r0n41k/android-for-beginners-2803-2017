@@ -71,18 +71,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+        new RecyclerClickListener(this, recyclerView, new RecyclerClickListener.OnTouchActionListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(v);
-                    if (holder instanceof CoinRecyclerViewAdapter.CoinViewHolder) {
-                        CoinRecyclerViewAdapter.CoinViewHolder coinViewHolder = (CoinRecyclerViewAdapter.CoinViewHolder) holder;
-                        Coin coin = coinViewHolder.getCoin();
-                        openDetail(String.format("https://coinmarketcap.com/currencies/%s/", coin.getId()));
-                    }
+            public void onClick(View view, int position) {
+                RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(view);
+                if (holder instanceof CoinRecyclerViewAdapter.CoinViewHolder) {
+                    CoinRecyclerViewAdapter.CoinViewHolder coinViewHolder = (CoinRecyclerViewAdapter.CoinViewHolder) holder;
+                    Coin coin = coinViewHolder.getCoin();
+                    openDetail(String.format("https://coinmarketcap.com/currencies/%s/", coin.getId()));
                 }
-                return true;
             }
         });
     }
@@ -99,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Favorite enabled: " + sharedPreferences.getBoolean(getString(R.string.pref_key_show_favorite), true), Toast.LENGTH_SHORT).show();
         //TODO Update adapter
     }
-
 
 
     private void showRateUsDialog() {
