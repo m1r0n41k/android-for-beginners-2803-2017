@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        new RecyclerClickListener(this, recyclerView, new RecyclerClickListener.OnTouchActionListener() {
+        RecyclerClickListener listener = new RecyclerClickListener(this, recyclerView, new RecyclerClickListener.OnTouchActionListener() {
             @Override
             public void onClick(View view, int position) {
                 RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(view);
@@ -82,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Added listener to
+        recyclerView.addOnItemTouchListener(listener);
     }
 
     private void openDetail(String url) {

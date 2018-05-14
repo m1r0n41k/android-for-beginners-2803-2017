@@ -1,36 +1,19 @@
 package com.drondon.android9;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
+import android.widget.Toast;
 
-import com.drondon.android9.api.HttpClient;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import com.drondon.android9.api.API;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CoinDataSource {
 
     private List<Coin> favorites = new ArrayList<>();
-
-    private Executor executorService = Executors.newSingleThreadExecutor();
-
-    private Handler handler = new Handler(Looper.getMainLooper());
-
-    private Executor uiService = new Executor() {
-        @Override
-        public void execute(@NonNull Runnable command) {
-            handler.post(command);
-        }
-    };
 
     interface ResultCallback {
         void onResult(List<Coin> coins);
@@ -41,40 +24,28 @@ public class CoinDataSource {
     }
 
     void load(final ResultCallback resultCallback) {
-        executorService.execute(new Runnable() {
+
+        Call<List<Coin>> call = API.get().getAllCoins(null);
+        call.enqueue(new Callback<List<Coin>>() {
             @Override
-            public void run() {
-                try {
-
-                    String result = new HttpClient().request("https://api.coinmarketcap.com/v1/ticker/");
-
-                    Gson gson = new GsonBuilder().create();
-
-                    Type type = new TypeToken<List<Coin>>() {
-                    }.getType();
-
-                    List<Coin> coins =  gson.fromJson(result, type);
+            public void onResponse(Call<List<Coin>> call, Response<List<Coin>> response) {
+                boolean successful = response.isSuccessful();
+                if (successful) {
+                    List<Coin> coins = response.body();
 
                     App.get().db.getCoinDao().insertAll(coins);
-
                     final List<Coin> all = App.get().db.getCoinDao().getAll();
-
-                    uiService.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            resultCallback.onResult(all);
-                        }
-                    });
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
+                    resultCallback.onResult(all);
+                } else {
+                    int code = response.code();
                 }
             }
+
+            @Override
+            public void onFailure(Call<List<Coin>> call, Throwable t) {
+                //Call<List<Coin>> clone = call.clone();
+                Toast.makeText(App.get(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
-
-
     }
-
 }

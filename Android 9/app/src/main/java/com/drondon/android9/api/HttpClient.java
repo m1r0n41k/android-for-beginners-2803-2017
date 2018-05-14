@@ -9,10 +9,10 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class HttpClient {
+class HttpClient {
     private static final String TAG = "HttpClient_";
 
-    public String request(String urlStr) throws IOException, URISyntaxException {
+    private String request(String urlStr) throws IOException, URISyntaxException {
         URL url = new URL(urlStr);
         String schema = url.toURI().getScheme();
         Log.d(TAG, "request: to url: " + urlStr + ", schema: " + schema);
