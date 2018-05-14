@@ -3,6 +3,7 @@ package com.drondon.android9;
 import android.widget.Toast;
 
 import com.drondon.android9.api.API;
+import com.drondon.android9.api.CoinMarketCapService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,8 @@ public class CoinDataSource {
     }
 
     void load(final ResultCallback resultCallback) {
-
-        Call<List<Coin>> call = API.get().getAllCoins(null);
+        CoinMarketCapService service = API.get();
+        Call<List<Coin>> call = service.getAllCoins(null);
         call.enqueue(new Callback<List<Coin>>() {
             @Override
             public void onResponse(Call<List<Coin>> call, Response<List<Coin>> response) {
@@ -34,8 +35,12 @@ public class CoinDataSource {
                     List<Coin> coins = response.body();
 
                     App.get().db.getCoinDao().insertAll(coins);
+
                     final List<Coin> all = App.get().db.getCoinDao().getAll();
+
                     resultCallback.onResult(all);
+
+                    //API.get().getGlobalData();
                 } else {
                     int code = response.code();
                 }

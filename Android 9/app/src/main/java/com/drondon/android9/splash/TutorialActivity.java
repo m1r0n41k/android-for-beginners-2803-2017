@@ -7,9 +7,11 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.drondon.android9.MainActivity;
 import com.drondon.android9.R;
+import com.squareup.picasso.Picasso;
 
 public class TutorialActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
@@ -36,6 +38,11 @@ public class TutorialActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        ImageView view = findViewById(R.id.imageView);
+
+        Picasso.get().load("https://sputnik.kg/images/101808/13/1018081344.jpg").into(view);
+
     }
 
 
