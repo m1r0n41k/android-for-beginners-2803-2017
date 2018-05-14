@@ -3,13 +3,16 @@ package com.drondon.android9;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -67,6 +70,27 @@ public class MainActivity extends AppCompatActivity {
                 recyclerView.setAdapter(adapter);
             }
         });
+
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(v);
+                    if (holder instanceof CoinRecyclerViewAdapter.CoinViewHolder) {
+                        CoinRecyclerViewAdapter.CoinViewHolder coinViewHolder = (CoinRecyclerViewAdapter.CoinViewHolder) holder;
+                        Coin coin = coinViewHolder.getCoin();
+                        openDetail(String.format("https://coinmarketcap.com/currencies/%s/", coin.getId()));
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
+    private void openDetail(String url) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 
     @Override
@@ -75,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Favorite enabled: " + sharedPreferences.getBoolean(getString(R.string.pref_key_show_favorite), true), Toast.LENGTH_SHORT).show();
         //TODO Update adapter
     }
+
+
 
     private void showRateUsDialog() {
         boolean ratedUs = sharedPreferences

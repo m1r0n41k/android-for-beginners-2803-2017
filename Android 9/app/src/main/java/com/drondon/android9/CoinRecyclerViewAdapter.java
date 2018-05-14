@@ -105,6 +105,8 @@ public class CoinRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public class CoinViewHolder extends RecyclerView.ViewHolder {
 
+        private Coin coin;
+
         private final CheckBox favorite;
         private TextView rank, simbol, name, marketCap, priceUsd, percent24h;
 
@@ -119,7 +121,13 @@ public class CoinRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             favorite = itemView.findViewById(R.id.checkBox);
         }
 
+        public Coin getCoin() {
+            return coin;
+        }
+
         public void setData(Coin coin, int position) {
+            //Save coin
+            this.coin = coin;
             rank.setText(String.valueOf(coin.getRank()));
             simbol.setText(String.valueOf(coin.getSymbol()));
             name.setText(String.valueOf(coin.getName()));
@@ -134,6 +142,8 @@ public class CoinRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             favorite.setOnCheckedChangeListener(checkedChangeListener);
 
         }
+
+
     }
 
     public class FavoriteCoinsViewHolder extends RecyclerView.ViewHolder {
