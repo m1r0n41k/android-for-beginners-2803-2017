@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Added listener to
         recyclerView.addOnItemTouchListener(listener);
+
+        App.get().getSessionData();
     }
 
     private void openDetail(String url) {
