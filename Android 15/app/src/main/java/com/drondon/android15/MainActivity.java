@@ -22,6 +22,13 @@ public class MainActivity extends AppCompatActivity {
         ColorStateList colorStateList = ContextCompat.getColorStateList(this, R.color.app_navigation_colors);
         bottomNavigation.setItemIconTintList(colorStateList);
 
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, new FirstFragment())
+                    .commit();
+        }
+
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -29,16 +36,24 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (id) {
                     case R.id.one:
-                        Toast.makeText(MainActivity.this, "One", Toast.LENGTH_SHORT).show();
-                        break;
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.container, FirstFragment.newInstance("ONE"))
+                                .addToBackStack(null)
+                                .commit();
+                        return true;
 
                     case R.id.two:
-                        Toast.makeText(MainActivity.this, "Two", Toast.LENGTH_SHORT).show();
-                        break;
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.container, new SecondFragment())
+                                .addToBackStack(null)
+                                .commit();
+                        return true;
 
                     case R.id.three:
                         Toast.makeText(MainActivity.this, "Three", Toast.LENGTH_SHORT).show();
-                        break;
+                        return true;
                 }
 
                 return false;
