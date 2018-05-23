@@ -41,11 +41,14 @@ public class ViewFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_view, container, false);
     }
 
+    private TextView textView;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final TextView textView = view.findViewById(R.id.textView);
+
+        textView = view.findViewById(R.id.textView);
 
         textView.setText("No data!");
 

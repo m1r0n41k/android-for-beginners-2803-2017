@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "998347275214",
+    "firebase_url": "https://app-demo-web-academy-march.firebaseio.com",
+    "project_id": "app-demo-web-academy-march",
+    "storage_bucket": "app-demo-web-academy-march.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998347275214:android:6b5b94c299d36c0d",
+        "android_client_info": {
+          "package_name": "com.drondon.android17"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998347275214-81uehtose6en54r784b60fb2kgip81vo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.drondon.android17",
+            "certificate_hash": "630cdf2cbe520d9bb5700f535ad81ed1ffc98f49"
+          }
+        },
+        {
+          "client_id": "998347275214-qvsiqga7dkgj2tuaejtp7sls39sbs18e.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "998347275214-qvsiqga7dkgj2tuaejtp7sls39sbs18e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaWyg3SlzDDC1tQnAbPurs4kY4x95pzWg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998347275214-qvsiqga7dkgj2tuaejtp7sls39sbs18e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
