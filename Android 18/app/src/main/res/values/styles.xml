@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+        <item name="toolbarStyle">@style/AppToolbar.BigText</item>
+    </style>
+
+    <style name="AppToolbar.BigText" parent="Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/Base.TextAppearance.AppCompat.Display4</item>
+    </style>
+
+    <style name="MyTextView">
+        <item name="android:textSize">25sp</item>
+    </style>
+
+</resources>
